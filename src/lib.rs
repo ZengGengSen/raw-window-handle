@@ -52,8 +52,9 @@ pub use ohos::{OhosDisplayHandle, OhosNdkWindowHandle};
 pub use redox::{OrbitalDisplayHandle, OrbitalWindowHandle};
 pub use uikit::{UiKitDisplayHandle, UiKitWindowHandle};
 pub use unix::{
-    DrmDisplayHandle, DrmWindowHandle, GbmDisplayHandle, GbmWindowHandle, WaylandDisplayHandle,
-    WaylandWindowHandle, XcbDisplayHandle, XcbWindowHandle, XlibDisplayHandle, XlibWindowHandle,
+    DrmDisplayHandle, DrmWindowHandle, GbmDisplayHandle, GbmWindowHandle, Ge8300FBDevDisplayHandle,
+    Ge8300FBDevWindowHandle, WaylandDisplayHandle, WaylandWindowHandle, XcbDisplayHandle,
+    XcbWindowHandle, XlibDisplayHandle, XlibWindowHandle,
 };
 pub use web::{
     WebCanvasWindowHandle, WebDisplayHandle, WebOffscreenCanvasWindowHandle, WebWindowHandle,
@@ -168,6 +169,12 @@ pub enum RawWindowHandle {
     /// This variant is present regardless of windowing backend and likely to be used with
     /// EGL_MESA_platform_gbm or EGL_KHR_platform_gbm.
     Gbm(GbmWindowHandle),
+    /// A raw window handle for the Linux GE8300 Framebuffer Device.
+    ///
+    /// ## Availability Hints
+    /// This variant is used on Linux systems running on Allwinner A133/T509 hardware with the GE8300
+    /// GPU, utilizing the framebuffer device for rendering.
+    Ge8300FBDev(Ge8300FBDevWindowHandle),
     /// A raw window handle for Win32.
     ///
     /// ## Availability Hints
@@ -321,6 +328,12 @@ pub enum RawDisplayHandle {
     /// This variant is present regardless of windowing backend and likely to be used with
     /// EGL_MESA_platform_gbm or EGL_KHR_platform_gbm.
     Gbm(GbmDisplayHandle),
+    /// A raw display handle for the Linux GE8300 Framebuffer Device.
+    ///
+    /// ## Availability Hints
+    /// This variant is used on Linux systems running on Allwinner A133/T509 hardware with
+    /// the GE8300 GPU, utilizing the framebuffer device for rendering.
+    Ge8300FBDev(Ge8300FBDevDisplayHandle),
     /// A raw display handle for Win32.
     ///
     /// ## Availability Hints
@@ -423,6 +436,7 @@ from_impl!(RawWindowHandle, Xcb, XcbWindowHandle);
 from_impl!(RawWindowHandle, Wayland, WaylandWindowHandle);
 from_impl!(RawWindowHandle, Drm, DrmWindowHandle);
 from_impl!(RawWindowHandle, Gbm, GbmWindowHandle);
+from_impl!(RawWindowHandle, Ge8300FBDev, Ge8300FBDevWindowHandle);
 from_impl!(RawWindowHandle, Win32, Win32WindowHandle);
 from_impl!(RawWindowHandle, WinRt, WinRtWindowHandle);
 from_impl!(RawWindowHandle, Web, WebWindowHandle);
@@ -464,6 +478,7 @@ mod tests {
         assert_not_impl_any!(WaylandDisplayHandle: Send, Sync);
         assert_impl_all!(DrmDisplayHandle: Send, Sync);
         assert_not_impl_any!(GbmDisplayHandle: Send, Sync);
+        assert_not_impl_any!(Ge8300FBDevDisplayHandle: Send, Sync);
         assert_impl_all!(WindowsDisplayHandle: Send, Sync);
         assert_impl_all!(WebDisplayHandle: Send, Sync);
         assert_impl_all!(AndroidDisplayHandle: Send, Sync);
@@ -479,6 +494,7 @@ mod tests {
         assert_not_impl_any!(WaylandWindowHandle: Send, Sync);
         assert_impl_all!(DrmWindowHandle: Send, Sync);
         assert_not_impl_any!(GbmWindowHandle: Send, Sync);
+        assert_not_impl_any!(Ge8300FBDevWindowHandle: Send, Sync);
         assert_impl_all!(Win32WindowHandle: Send, Sync);
         assert_not_impl_any!(WinRtWindowHandle: Send, Sync);
         assert_impl_all!(WebWindowHandle: Send, Sync);

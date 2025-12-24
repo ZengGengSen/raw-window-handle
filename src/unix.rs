@@ -314,3 +314,51 @@ impl GbmWindowHandle {
         Self { gbm_surface }
     }
 }
+
+/// Raw display handle for the Linux Generic Buffer Manager.
+#[non_exhaustive]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub struct Ge8300FBDevDisplayHandle {
+    /// The fbdev device.
+    pub fbdev_display: *mut c_void,
+}
+
+impl Ge8300FBDevDisplayHandle {
+    /// Create a new handle to a device.
+    ///
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// # use raw_window_handle::Ge8300FBDevDisplayHandle;
+    /// #
+    /// let handle = Ge8300FBDevDisplayHandle::new(std::ptr::null_mut());
+    /// ```
+    pub fn new(fbdev_display: *mut c_void) -> Self {
+        Self { fbdev_display }
+    }
+}
+
+/// Raw window handle for the Linux GE8300 Framebuffer Device.
+#[non_exhaustive]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub struct Ge8300FBDevWindowHandle {
+    /// The fbdev window.
+    pub fbdev_window: *mut c_void,
+}
+
+impl Ge8300FBDevWindowHandle {
+    /// Create a new handle to a window.
+    ///
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// # use raw_window_handle::Ge8300FBDevWindowHandle;
+    /// #
+    /// let handle = Ge8300FBDevWindowHandle::new(std::ptr::null_mut());
+    /// ```
+    pub fn new(fbdev_window: *mut c_void) -> Self {
+        Self { fbdev_window }
+    }
+}
